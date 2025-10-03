@@ -51,4 +51,56 @@ export default function PodcastLandingPage() {
 
   const isEmpty =
     !loading && !error && Array.isArray(podcasts) && podcasts.length === 0;
-    
+
+    return (
+    <main className="landing">
+      <header className="landing__header">
+        <div>
+          <h1>Discover Podcasts</h1>
+          <p className="muted">Live data from podcast-api.netlify.app</p>
+        </div>
+
+        <div className="pill" aria-live="polite">
+          {loading
+            ? "Loading…"
+            : Array.isArray(podcasts)
+            ? `${podcasts.length} shows`
+            : ""}
+        </div>
+      </header>
+
+      <section className="podcast-grid">
+        {loading &&
+          Array.from({ length: 8 }).map((_, i) => <SkeletonCard key={i} />)}
+
+        {error && (
+          <StatePanel
+            title="We hit a snag"
+            message={`Couldn’t load podcasts (${error}).`}
+            action={
+              <button className="btn" onClick={fetchAll}>
+                Retry
+              </button>
+            }
+          />
+        )}
+
+        {isEmpty && (
+          <StatePanel
+            title="Nothing to see (yet)"
+            message="No podcasts were returned. Please check back later."
+          />
+        )}
+
+        {!loading &&
+          !error &&
+          Array.isArray(podcasts) &&
+          podcasts.map((p) => (
+            <PodcastPreview key={p.id} podcast={p} genreLookup={genreLookup} />
+          ))}
+      </section>
+    </main>
+  );
+}
+
+
