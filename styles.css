@@ -111,3 +111,79 @@ h1 {
   transform: scale(1.01);
   transition: transform 0.25s ease;
 }
+.podcast-card:hover .podcast-card__image {
+  transform: scale(1.04);
+}
+
+.podcast-card__body {
+  padding: 14px 16px 16px;
+}
+
+.podcast-card__title {
+  margin: 0 0 6px;
+  font-size: 16px;
+  font-weight: 700;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.podcast-card__meta {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.podcast-card__genres {
+  margin-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tag {
+  display: inline-block;
+  padding: 4px 8px;
+  font-size: 12px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: #f8fafc;
+}
+
+/* Skeletons */
+.skeleton-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+.skeleton-thumb {
+  height: 180px;
+}
+
+.skeleton-line-group {
+  padding: 14px 16px 16px;
+}
+
+.skeleton {
+  position: relative;
+  background: #e5e7eb;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.skeleton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.6),
+    transparent
+  );
+  animation: shimmer 1.4s infinite;
+}
