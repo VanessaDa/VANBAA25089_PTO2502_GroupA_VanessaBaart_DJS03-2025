@@ -29,3 +29,26 @@ export default function PodcastLandingPage() {
       return {};
     }
   }, []);
+
+  async function fetchAll() {
+    setLoading(true);
+    setError(null);
+    try {
+      const resPod = await fetch("https://podcast-api.netlify.app");
+      if (!resPod.ok) throw new Error("Failed to fetch podcasts");
+      const podData = await resPod.json();
+      setPodcasts(podData);
+    } catch (e) {
+      setError(e.message || "Unknown error");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    fetchAll();
+  }, []);
+
+  const isEmpty =
+    !loading && !error && Array.isArray(podcasts) && podcasts.length === 0;
+    
