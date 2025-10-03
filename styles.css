@@ -187,3 +187,49 @@ h1 {
   );
   animation: shimmer 1.4s infinite;
 }
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.skeleton-line {
+  height: 12px;
+  margin: 8px 0;
+}
+.w-70 {
+  width: 70%;
+}
+.w-40 {
+  width: 40%;
+}
+.skeleton-chip-row {
+  display: flex;
+  gap: 6px;
+  margin-top: 8px;
+}
+.skeleton-chip {
+  width: 64px;
+  height: 22px;
+  border-radius: 999px;
+}
+
+/* State panel */
+.state-panel {
+  grid-column: 1 / -1;
+  text-align: center;
+  border: 1px solid var(--border);
+  background: #fff;
+  border-radius: var(--radius);
+  padding: 24px;
+}
+.state-panel h3 {
+  margin: 0 0 6px;
+}
+.state-panel p {
+  margin: 0;
+  color: var(--muted);
+}
+.state-panel__action {
+  margin-top: 12px;
+}
