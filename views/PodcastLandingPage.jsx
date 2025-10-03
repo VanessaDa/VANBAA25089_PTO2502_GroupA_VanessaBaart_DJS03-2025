@@ -1,0 +1,104 @@
+/**
+ * PodcastLandingPage view:
+ * - Fetches podcasts on mount (useEffect)
+ * - Uses local genres from src/data.js to build an id→name lookup
+ * - Manages loading/error/empty states (useState)
+ * - Renders a responsive grid of PodcastPreview cards
+ * @module views/PodcastLandingPage
+ */
+
+import React, { useEffect, useMemo, useState } from "react";
+import PodcastPreview from "../components/PodcastPreview";
+import SkeletonCard from "../components/SkeletonCard";
+import StatePanel from "../components/StatePanel";
+import { genres as GENRES_ARRAY } from "../data"; // ✅ use your provided data.js
+
+/** Top-level landing page view: fetch + grid render */
+export default function PodcastLandingPage() {
+  const [podcasts, setPodcasts] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  // Build a stable id→title lookup from your existing data.js
+  const genreLookup = useMemo(() => {
+    try {
+      return Object.fromEntries(
+        (GENRES_ARRAY ?? []).map((g) => [String(g.id), g.title])
+      );
+    } catch {
+      return {};
+    }
+  }, []);
+
+  async function fetchAll() {
+    setLoading(true);
+    setError(null);
+    try {
+      const resPod = await fetch("https://podcast-api.netlify.app");
+      if (!resPod.ok) throw new Error("Failed to fetch podcasts");
+      const podData = await resPod.json();
+      setPodcasts(podData);
+    } catch (e) {
+      setError(e.message || "Unknown error");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    fetchAll();
+  }, []);
+
+  const isEmpty =
+    !loading && !error && Array.isArray(podcasts) && podcasts.length === 0;
+
+  return (
+    <main className="landing">
+      <header className="landing__header">
+        <div>
+          <h1>Discover Podcasts</h1>
+          <p className="muted">Live data from podcast-api.netlify.app</p>
+        </div>
+
+        <div className="pill" aria-live="polite">
+          {loading
+            ? "Loading…"
+            : Array.isArray(podcasts)
+            ? `${podcasts.length} shows`
+            : ""}
+        </div>
+      </header>
+
+      <section className="podcast-grid">
+        {loading &&
+          Array.from({ length: 8 }).map((_, i) => <SkeletonCard key={i} />)}
+
+        {error && (
+          <StatePanel
+            title="We hit a snag"
+            message={`Couldn’t load podcasts (${error}).`}
+            action={
+              <button className="btn" onClick={fetchAll}>
+                Retry
+              </button>
+            }
+          />
+        )}
+
+        {isEmpty && (
+          <StatePanel
+            title="Nothing to see (yet)"
+            message="No podcasts were returned. Please check back later."
+          />
+        )}
+
+        {!loading &&
+          !error &&
+          Array.isArray(podcasts) &&
+          podcasts.map((p) => (
+            <PodcastPreview key={p.id} podcast={p} genreLookup={genreLookup} />
+          ))}
+      </section>
+    </main>
+  );
+}
