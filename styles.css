@@ -1,0 +1,38 @@
+:root {
+  --bg: #f8f9fb;
+  --fg: #0f1115;
+  --muted: #6b7280;
+  --card: #ffffff;
+  --border: #e5e7eb;
+  --shadow: 0 6px 20px rgb(16 24 40 / 6%);
+  --radius: 16px;
+}
+
+/* Page */
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu,
+    "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol";
+  background: var(--bg);
+  color: var(--fg);
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.landing {
+  min-height: 100vh;
+  padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.landing__header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 8px 0 20px;
+}
