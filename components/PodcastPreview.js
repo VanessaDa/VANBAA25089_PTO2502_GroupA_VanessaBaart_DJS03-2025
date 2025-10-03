@@ -27,3 +27,32 @@ export default function PodcastPreview({ podcast, genreLookup }) {
       return "recently";
     }
   }, [updated]);
+  return (
+    <article className="podcast-card">
+      <div className="podcast-card__media">
+        <img
+          className="podcast-card__image"
+          src={image}
+          alt={`${title} cover art`}
+          loading="lazy"
+        />
+      </div>
+
+      <div className="podcast-card__body">
+        <h3 className="podcast-card__title">{title}</h3>
+        <p className="podcast-card__meta">
+          {seasons} {seasons === 1 ? "season" : "seasons"} · updated{" "}
+          {lastUpdated}
+        </p>
+        <div className="podcast-card__genres">
+          {genreNames.slice(0, 5).map((g) => (
+            <GenreTag key={g} label={g} />
+          ))}
+          {genreNames.length > 5 && (
+            <GenreTag label={`+${genreNames.length - 5}`} />
+          )}
+        </div>
+      </div>
+    </article>
+  );
+}
