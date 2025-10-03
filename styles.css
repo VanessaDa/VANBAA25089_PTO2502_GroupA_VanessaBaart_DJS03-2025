@@ -36,3 +36,36 @@ body {
   gap: 16px;
   margin: 8px 0 20px;
 }
+h1 {
+  margin: 0;
+  font-size: 28px;
+  line-height: 1.2;
+}
+
+/* Pills / Buttons */
+.pill {
+  border: 1px solid var(--border);
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 13px;
+  background: #fff;
+}
+
+.btn {
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: #fff;
+  padding: 8px 14px;
+  font-size: 14px;
+  cursor: pointer;
+}
+.btn:hover {
+  background: #f2f4f7;
+}
+
+/* Grid */
+.podcast-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
