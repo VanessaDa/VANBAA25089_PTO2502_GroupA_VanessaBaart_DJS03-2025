@@ -1,0 +1,31 @@
+/**
+ * PodcastLandingPage view:
+ * - Fetches podcasts on mount (useEffect)
+ * - Uses local genres from src/data.js to build an id→name lookup
+ * - Manages loading/error/empty states (useState)
+ * - Renders a responsive grid of PodcastPreview cards
+ * @module views/PodcastLandingPage
+ */
+
+import React, { useEffect, useMemo, useState } from "react";
+import PodcastPreview from "../components/PodcastPreview";
+import SkeletonCard from "../components/SkeletonCard";
+import StatePanel from "../components/StatePanel";
+import { genres as GENRES_ARRAY } from "../data"; // ✅ use your provided data.js
+
+/** Top-level landing page view: fetch + grid render */
+export default function PodcastLandingPage() {
+  const [podcasts, setPodcasts] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  // Build a stable id→title lookup from your existing data.js
+  const genreLookup = useMemo(() => {
+    try {
+      return Object.fromEntries(
+        (GENRES_ARRAY ?? []).map((g) => [String(g.id), g.title])
+      );
+    } catch {
+      return {};
+    }
+  }, []);
